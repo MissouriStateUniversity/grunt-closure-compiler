@@ -75,17 +75,20 @@ module.exports = function(grunt) {
             }
         }
         //adding module compilation support
-        if(data.modules){
+        if(data.modules) {
             if(data.modules.output_path_prefix){
                 command += ' --module_output_path_prefix=' + data.modules.output_path_prefix+' ';
             }
             if(data.modules.definitions){
+                var isFirstModule = true;
                 for(var module in data.modules.definitions){
+                    var hasWildcardPath = false;
                     for(var fileIndex = 0;fileIndex<data.modules.definitions[module].files.length;fileIndex++){
                         command += ' --js=' + data.modules.definitions[module].files[fileIndex] + ' ';
+                        hasWildcardPath = hasWildcardPath || data.modules.definitions[module].files[fileIndex].indexOf('*');
                     }
                     command += ' --module ' + module + ':' +
-					    (data.modules.definitions[module].autoLength ? 'auto' : data.modules.definitions[module].files.length);
+					    (isFirstModule && hasWildcardPath ? 'auto' : data.modules.definitions[module].files.length);
                     if(data.modules.definitions[module].dependencies && data.modules.definitions[module].dependencies.length>0){
                         command += ':' + data.modules.definitions[module].dependencies.join(',');
                     }
@@ -93,6 +96,7 @@ module.exports = function(grunt) {
                     if(data.modules.definitions[module].wrapper){
                         command += '--module_wrapper ' + module + ':"' + data.modules.definitions[module].wrapper + '" ';
                     }
+                    isFirstModule = false;
                 }
 
             }
