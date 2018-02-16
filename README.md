@@ -1,6 +1,6 @@
 # grunt-closure-compiler
 
-A Grunt task for [Closure Compiler](https://developers.google.com/closure/compiler/).
+A Grunt task for [Closure Compiler](https://developers.google.com/closure/compiler/). 
 
 ## Getting Started
 
